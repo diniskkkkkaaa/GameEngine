@@ -7,11 +7,13 @@ AppWindow::~AppWindow() {
 }
 
 void AppWindow::onCreate() {
-
+    //Window::onCreate();
+    GraphicsEngine::Get()->Init();
 }
 void AppWindow::onUpdate() {
 
 }
 void AppWindow::onDestroy() {
     Window::onDestroy();
+    GraphicsEngine::Get()->Release();
 }
