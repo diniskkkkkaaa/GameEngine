@@ -1,6 +1,8 @@
 #pragma once
 #include <d3d11.h>
-#include "../SwapChain/SwapChain.h"
+
+class SwapChain;
+class DeviceContext;
 
 class GraphicsEngine {
 public:
@@ -10,10 +12,12 @@ public:
     bool Init(); // Initializing the GraphicsEngine and DirectX 11 device
     bool Release(); // Release all the resource loaded
 
-    static GraphicsEngine* Get(); // Creating pointer to engine
-    SwapChain* createSwapChain(); // Creating pointer to SwapChain
-
+    SwapChain * createSwapChain();
+    DeviceContext* getImmediateDeviceContext();
+    static GraphicsEngine* Get();
 private:
+    DeviceContext * m_imm_device_context;
+
     ID3D11Device * m_d3d_device; // Pointer to the main device interface
     D3D_FEATURE_LEVEL m_feature_level; // Definition of the supported feature level of a Direct3D device.
     ID3D11DeviceContext * m_inn_context; // Pointer to the device context
