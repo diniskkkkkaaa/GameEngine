@@ -3,21 +3,21 @@
 
 class Window {
 public:
-    Window();
-    //Intialize the window
-    bool Init();
-    bool Broadcast();
-    bool isRunning();
-    //Release the window
-    bool Release();
+    Window() = default;
 
-    //Events
-    virtual void onCreate()=0;
-    virtual void onUpdate()=0;
-    virtual void onDestroy();
+    bool Init(); // Initialize the window
+    bool Broadcast(); // Updating window
+    bool isRunning(); // Check is window running
+    bool Release(); //Release the window
+    RECT getClientWindowRect(); // Gets the coordinates of the window
+    void setHWND(HWND hwnd); // Setting window
 
-    ~Window();
+    virtual void onCreate()=0; //Event after window creation
+    virtual void onUpdate()=0; //Event after window update
+    virtual void onDestroy(); //Event after window release
+
+    ~Window() = default;
 protected:
-    HWND m_hwnd;
-    bool m_isRunning;
+    HWND m_hwnd; // Window object
+    bool m_isRunning; // The flag is window is running and doesn't release
 };

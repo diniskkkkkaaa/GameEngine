@@ -2,12 +2,11 @@
 
 Window* window=nullptr;
 
-Window::Window() {}
-
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
         case WM_CREATE:
            // Event fired when the window will be created
+           window->setHWND(hwnd);
            window->onCreate();
            break;
 
@@ -22,22 +21,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     }
     return NULL;
 }
-bool Window::Init() {
-    // Setting up WNDCLASSEX object
-    WNDCLASSEX wc;
-    wc.cbClsExtra = NULL;
-    wc.cbSize = sizeof(WNDCLASSEX);
-    wc.cbWndExtra = NULL;
-    wc.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hInstance = NULL;
-    wc.lpszClassName = "WindowClass";
-    wc.lpszMenuName = "";
-    wc.style = NULL;
-    wc.lpfnWndProc = &WndProc;
 
+bool Window::Init() {
+    WNDCLASSEX wc; // Setting up WNDCLASSEX object
+    wc.cbClsExtra = NULL; // Additional memory space for the class
+    wc.cbSize = sizeof(WNDCLASSEX); // Size of the structure
+    wc.cbWndExtra = NULL; // Additional memory space for the window
+    wc.hbrBackground = (HBRUSH)COLOR_BACKGROUND; // Specifies the background brush (set to a system color)
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW); // Defines the cursor style (set to an arrow cursor).
+    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION); // Specifies icons for the window (set to default application icon).
+    wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION); // Specifies icons for the window (set to default application icon).
+    wc.hInstance = NULL; // IDK
+    wc.lpszClassName = "WindowClass"; // Name of the window class "WindowClass"
+    wc.lpszMenuName = ""; // Specifies the menu name (set to an empty string, meaning no menu)
+    wc.style = NULL; // IDK
+    wc.lpfnWndProc = &WndProc; // Pointer to the window procedure function (WndProc) to handle window messages
+
+    // Registering the window class
     if(!::RegisterClassEx(&wc))
         return false;
 
@@ -63,6 +63,7 @@ bool Window::Init() {
 bool Window::Broadcast() {
     MSG msg;
 
+
     while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
@@ -82,7 +83,18 @@ bool Window::Release() {
     return true;
 }
 
+RECT Window::getClientWindowRect() {
+    RECT rc;
+    GetClientRect(this->m_hwnd, &rc);
+    return rc;
+}
+
+void Window::setHWND(HWND hwnd) {
+    this->m_hwnd=hwnd;
+}
+
 bool Window::isRunning() {
+    // Returning status of the window
     return m_isRunning;
 }
 
@@ -90,5 +102,3 @@ void Window::onDestroy() {
     // Set this flag to false to indicate that the window is not running
     m_isRunning =false;
 }
-
-Window::~Window() {}
