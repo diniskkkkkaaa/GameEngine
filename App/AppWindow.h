@@ -2,6 +2,7 @@
 #include "../GameEngine/WindowingSystem/Window.h"
 #include "../GameEngine/GraphicsEngine/GraphicsEngine.h"
 #include "../GameEngine/SwapChain/SwapChain.h"
+#include "../GameEngine/DeviceContext/DeviceContext.h"
 
 class AppWindow: public Window{
 public:

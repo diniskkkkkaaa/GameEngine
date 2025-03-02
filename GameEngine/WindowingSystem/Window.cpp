@@ -63,13 +63,14 @@ bool Window::Init() {
 bool Window::Broadcast() {
     MSG msg;
 
+    this->onUpdate();
 
     while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
 
-    window->onUpdate();
+
     Sleep(0);
 
     return true;
@@ -85,7 +86,7 @@ bool Window::Release() {
 
 RECT Window::getClientWindowRect() {
     RECT rc;
-    GetClientRect(this->m_hwnd, &rc);
+    ::GetClientRect(this->m_hwnd, &rc);
     return rc;
 }
 

@@ -12,6 +12,8 @@ add_executable(GameEngine App/main.cpp
         GameEngine/GraphicsEngine/GraphicsEngine.cpp
         GameEngine/GraphicsEngine/GraphicsEngine.h
         GameEngine/SwapChain/SwapChain.cpp
-        GameEngine/SwapChain/SwapChain.h)
+        GameEngine/SwapChain/SwapChain.h
+        GameEngine/DeviceContext/DeviceContext.cpp
+        GameEngine/DeviceContext/DeviceContext.h)
 
 target_link_libraries(GameEngine d3d11.lib)
