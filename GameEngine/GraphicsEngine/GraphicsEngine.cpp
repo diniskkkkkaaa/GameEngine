@@ -1,6 +1,5 @@
 #include "GraphicsEngine.h"
-
-GraphicsEngine::GraphicsEngine() {}
+#include "../SwapChain/SwapChain.h"
 
 bool GraphicsEngine::Init() {
     D3D_DRIVER_TYPE driverTypes[] = {
@@ -26,18 +25,32 @@ bool GraphicsEngine::Init() {
     if (FAILED(res))
         return false;
 
+    m_d3d_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&m_dxgi_device);
+    m_dxgi_device->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgi_adapter);
+    m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory);
+
+
+
     return true;
 }
 
 bool GraphicsEngine::Release() {
+
+    m_dxgi_device->Release();
+    m_dxgi_adapter->Release();
+    m_dxgi_factory->Release();
+
+
     m_inn_context->Release();
     m_d3d_device->Release();
     return true;
 }
 
-GraphicsEngine::~GraphicsEngine() {}
-
 GraphicsEngine * GraphicsEngine::Get() {
     static GraphicsEngine engine;
     return &engine;
+}
+
+SwapChain * GraphicsEngine::createSwapChain() {
+    return new SwapChain();
 }

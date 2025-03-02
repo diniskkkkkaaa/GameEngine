@@ -10,6 +10,8 @@ add_executable(GameEngine App/main.cpp
         App/AppWindow.cpp
         App/AppWindow.h
         GameEngine/GraphicsEngine/GraphicsEngine.cpp
-        GameEngine/GraphicsEngine/GraphicsEngine.h)
+        GameEngine/GraphicsEngine/GraphicsEngine.h
+        GameEngine/SwapChain/SwapChain.cpp
+        GameEngine/SwapChain/SwapChain.h)
 
 target_link_libraries(GameEngine d3d11.lib)
